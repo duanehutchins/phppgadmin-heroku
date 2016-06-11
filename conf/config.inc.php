@@ -1,15 +1,15 @@
 <?php
 	//Heroku Database patch
 	$dsn = getenv('DATABASE_URL');
-	$regexp = '/(?P<driver>[a-z]*):\/\/(?P<username>[a-zA-Z0-9]*):(?P<password>[a-zA-Z0-9\-_]*)@(?P<host>[a-zA-Z0-9\-\.]*)\/(?P<database>[a-zA-Z0-9]*)/';
+	$regexp = '/^(?P<driver>[a-z]*):\/\/(?P<username>[a-zA-Z0-9]*):(?P<password>[a-zA-Z0-9\-_]*)@(?P<host>[a-zA-Z0-9\-\.]*):?(?P<port>\d+)?\/(?P<database>[a-zA-Z0-9]*)/';
 	
 	$matches = array();
 	preg_match($regexp, $dsn, $matches);
 
 	// Display name for the server on the login screen
-	$conf['servers'][0]['desc'] = 'PostgreSQL';
+	$conf['servers'][0]['desc'] = $matches['host'].'/'.$matches['database'];
 	$conf['servers'][0]['host'] = $matches['host'];
-	$conf['servers'][0]['port'] = 5432;
+	$conf['servers'][0]['port'] = $matches['port'] ?: 5432;
 	$conf['servers'][0]['sslmode'] = 'allow';
 	$conf['servers'][0]['defaultdb'] = $matches['database'];
 
