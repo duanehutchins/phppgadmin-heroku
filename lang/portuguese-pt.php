@@ -18,7 +18,7 @@ $lang['strpgsqlhome'] = 'Página inicial PostgreSQL ';
 $lang['strpgsqlhome_url'] = 'http://www.postgresql.org/';
 $lang['strreportbug'] = 'Relatório de Bug';
 $lang['strviewfaq'] = 'Visualizar FAQ';
-$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 $lang['strlogin'] = 'Autenticação';					
 $lang['strloginfailed'] = 'Falha na autenticação';		
 $lang['strserver'] = 'Servidor';					
@@ -406,18 +406,6 @@ $lang['strschemadropped'] = 'Esquema eliminado.';
 $lang['strschemadroppedbad'] = 'Falha ao eliminar o esquema.';
 
 // Reports
-$lang['strreport'] = 'Relatório';			
-$lang['strreports'] = 'Relatórios';			
-$lang['strshowallreports'] = 'Exibir todos os relatórios';		
-$lang['strnoreports'] = 'Relatório não encontrado.';		
-$lang['strcreatereport'] = 'Criar relatório';		
-$lang['strreportdropped'] = 'Relatório eliminado.';		
-$lang['strreportdroppedbad'] = 'Falha ao eliminar o relatório.';		
-$lang['strconfdropreport'] = 'Tem certeza que quer eliminar o relatório "%s"?';		
-$lang['strreportneedsname'] = 'Dê um nome ao seu relatório.';	
-$lang['strreportneedsdef'] = 'Adicione a instrução SQL ao seu relatório.';	
-$lang['strreportcreated'] = 'Relatório salvo.';					
-$lang['strreportcreatedbad'] = 'Falha ao salvar o relatório.';		
 
 // Miscellaneous
 $lang['strtopbar'] = '%s a correr  em %s:%s -- Você está ligado como "%s"';
@@ -461,7 +449,6 @@ $lang['strphpversionnotsupported'] = 'Versão do PHP não é suportada. Por favo
 $lang['strpostgresqlversionnotsupported'] = 'Versão do PostgreSQL não é suportada. Por favor actualize para a versão %s ou superior.';
 $lang['strnoobjects'] = 'Não foram escontrados objectos.';
 $lang['strrownotunique'] = 'Não existe identificador único para esta linha.';
-$lang['strnoreportsdb'] = 'Não criou uma base de dados de relatório. Leia o ficheiro INSTALL para mais informações.';
 $lang['strnouploads'] = 'Upload de ficheiros indisponível.';
 $lang['strimporterror'] = 'Erro na importação.';
 $lang['strimporterrorline'] = 'Erro ao importar na linha %s.';

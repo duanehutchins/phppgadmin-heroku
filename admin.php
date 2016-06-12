@@ -280,7 +280,7 @@
 			echo $misc->form;
 			echo "<p><input type=\"checkbox\" id=\"vacuum_full\" name=\"vacuum_full\" /> <label for=\"vacuum_full\">{$lang['strfull']}</label></p>\n";
 			echo "<p><input type=\"checkbox\" id=\"vacuum_analyze\" name=\"vacuum_analyze\" /> <label for=\"vacuum_analyze\">{$lang['stranalyze']}</label></p>\n";
-			echo "<p><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /><label for=\"vacuum_freeze\">{$lang['strfreeze']}</label></p>\n";
+			echo "<p><input type=\"checkbox\" id=\"vacuum_freeze\" name=\"vacuum_freeze\" /> <label for=\"vacuum_freeze\">{$lang['strfreeze']}</label></p>\n";
 			echo "<input type=\"submit\" name=\"vacuum\" value=\"{$lang['strvacuum']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 			echo "</form>\n";
@@ -628,23 +628,35 @@
 
 			$actions = array(
 				'edit' => array(
-					'title' => $lang['stredit'],
-					'url'   => "{$script}?action=confeditautovac&amp;{$misc->href}&amp;subject={$type}&amp;",
-					'vars'  => array(
-						'schema' => 'nspname',
-						'table' => 'relname'
+					'content' => $lang['stredit'],
+					'attr'=> array (
+						'href' => array (
+							'url' => $script,
+							'urlvars' => array (
+								'subject' => $type,
+								'action' => 'confeditautovac',
+								'schema' => field('nspname'),
+								'table' => field('relname')
+							)
+						)
 					)
 				),
 				'delete' => array(
-					'title' => $lang['strdelete'],
-					'url'   => "{$script}?action=confdelautovac&amp;{$misc->href}&amp;subject={$type}&amp;",
-					'vars'  => array(
-						'schema' => 'nspname',
-						'table' => 'relname'
+					'content' => $lang['strdelete'],
+					'attr'=> array (
+						'href' => array (
+							'url' => $script,
+							'urlvars' => array (
+								'subject' => $type,
+								'action' => 'confdelautovac',
+								'schema' => field('nspname'),
+								'table' => field('relname')
+							)
+						)
 					)
 				)
 			);
-			
+
 			if ($type == 'table') {
 				unset($actions['edit']['vars']['schema'], 
 					$actions['delete']['vars']['schema'],
@@ -653,7 +665,7 @@
 				);
 			}
 
-			$misc->printTable($autovac, $columns, $actions, $lang['strnovacuumconf']);
+			$misc->printTable($autovac, $columns, $actions, 'admin-admin', $lang['strnovacuumconf']);
 			
 			if (($type == 'table') and ($autovac->recordCount() == 0)) {
 				echo "<br />";

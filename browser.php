@@ -13,13 +13,6 @@
 	$_no_bottom_link = true;
 	include_once('./libraries/lib.inc.php');
 	
-	if (isset($conf['srv_groups'])) {
-		$treeaction = 'groupstree';
-	}
-	else {
-		$treeaction = 'tree';
-	}
-	
 	// Output header
 	$misc->printHeader('', '
 		<script src="xloadtree/xtree2.js" type="text/javascript"></script>
@@ -32,7 +25,11 @@
 	echo "<div dir=\"ltr\">\n";
 ?>
 
-	<div class="logo"><a href="intro.php" target="detail"><img src="<?php echo $misc->icon('title') ?>" width="200" height="50" alt="<?php echo htmlspecialchars($appName) ?>" title="<?php echo htmlspecialchars($appName) ?>" /></a></div>
+	<div class="logo">
+		<a href="intro.php" target="detail">
+			<?php echo htmlspecialchars($appName) ?> 
+		</a>
+	</div>
 	<div class="refreshTree"><a href="browser.php" target="browser" ><img src="<?php echo $misc->icon('Refresh'); ?>" alt="<?php echo $lang['strrefresh']; ?>" title="<?php echo $lang['strrefresh']; ?>" /></a></div>
 <script type="text/javascript">
 
@@ -72,7 +69,7 @@ WebFXTreeAbstractNode.prototype._ondblclick = function(e){
 	return false;
 };
 */
-var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=<?php echo $treeaction ?>", "servers.php");
+var tree = new WebFXLoadTree("<?php echo $lang['strservers']; ?>", "servers.php?action=tree", "servers.php");
 
 tree.write();
 tree.setExpanded(true);

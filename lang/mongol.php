@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL - тЩоЩЧ ТСвЩЭд (ьЯЫСЬ)';
 	$lang['strreportbug'] = 'сЬФССЮй ЭмФммЬмЬ';
 	$lang['strviewfaq'] = 'сгееЬд ТС ШСвЩеЬд';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'шЯЬТЯЧФЯШ';
@@ -451,18 +451,6 @@
 	$lang['strschemadroppedbad'] = 'ѕЮЩодЯжХЮЩХ гШХЭй авХвзСЮЯ.';
 
 	// Reports
-	$lang['strreport'] = 'ядоХд';
-	$lang['strreports'] = 'ядоХдй';
-	$lang['strshowallreports'] = '№ЯЫСкСди згХ ЯдоХдй';
-	$lang['strnoreports'] = 'ядоХдЯз ЮХд.';
-	$lang['strcreatereport'] = 'ѓЯкФСди ЯдоХд';
-	$lang['strreportdropped'] = 'ядоХд еЮЩодЯжХЮ.';
-	$lang['strreportdroppedbad'] = 'ѕЮЩодЯжХЮЩХ ЯдоХдС авХвзСЮЯ.';
-	$lang['strconfdropreport'] = 'їй езХвХЮй, одЯ ШЯдЩдХ еЮЩодЯжЩди ЯдоХд "%s"?';
-	$lang['strreportneedsname'] = 'їСЭ ЮХЯТШЯФЩЭЯ еЫСкСди ЩЭб ЯдоХдС.';
-	$lang['strreportneedsdef'] = 'їСЭ ЮХЯТШЯФЩЭЯ еЫСкСди SQL-кСавЯг ФЬб їСлХЧЯ ЯдоХдС.';
-	$lang['strreportcreated'] = 'ядоХд гЯШвСЮХЮ.';
-	$lang['strreportcreatedbad'] = 'ѓЯШвСЮХЮЩХ ЯдоХдС авХвзСЮЯ.';
 
 	// Domains
 	$lang['strdomain'] = 'фЯЭХЮ';

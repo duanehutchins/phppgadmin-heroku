@@ -349,7 +349,7 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strselect'], 'pg.sql.select');
+			$misc->printTabs('table','select');
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
@@ -405,7 +405,7 @@
 					$attrs->moveNext();
 				}
 				// Select all checkbox
-				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
+				echo "<tr><td colspan=\"5\"><input type=\"checkbox\" id=\"selectall\" name=\"selectall\" accesskey=\"a\" onclick=\"javascript:selectAll()\" /><label for=\"selectall\">{$lang['strselectallfields']}</label></td>";
 				echo "</tr></table>\n";
 			}
 			else echo "<p>{$lang['strinvalidparam']}</p>\n";
@@ -414,7 +414,7 @@
 			echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 			echo "<input type=\"hidden\" name=\"subject\" value=\"table\" />\n";
 			echo $misc->form;
-			echo "<input type=\"submit\" name=\"select\" value=\"{$lang['strselect']}\" />\n";
+			echo "<input type=\"submit\" name=\"select\" accesskey=\"r\" value=\"{$lang['strselect']}\" />\n";
 			echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" /></p>\n";
 			echo "</form>\n";
 		}
@@ -456,7 +456,8 @@
 
 		if ($confirm) {
 			$misc->printTrail('table');
-			$misc->printTitle($lang['strinsertrow'], 'pg.sql.insert');
+			$misc->printTabs('table','insert');
+			
 			$misc->printMsg($msg);
 
 			$attrs = $data->getTableAttributes($_REQUEST['table']);
@@ -505,8 +506,8 @@
 					echo "<td style=\"white-space:nowrap;\">";
 					// Output null box if the column allows nulls (doesn't look at CHECKs or ASSERTIONS)
 					if (!$attrs->fields['attnotnull']) {
-						echo "<input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
-							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></td>";
+						echo "<label><span><input type=\"checkbox\" name=\"nulls[{$attrs->fields['attnum']}]\"",
+							isset($_REQUEST['nulls'][$attrs->fields['attnum']]) ? ' checked="checked"' : '', " /></span></label></td>";
 					}
 					else {
 						echo "&nbsp;</td>";
@@ -537,7 +538,7 @@
 				echo "<input type=\"hidden\" name=\"protection_counter\" value=\"".$_SESSION['counter']."\" />\n";
 				echo "<input type=\"hidden\" name=\"table\" value=\"", htmlspecialchars($_REQUEST['table']), "\" />\n";
 				echo "<p><input type=\"submit\" name=\"insert\" value=\"{$lang['strinsert']}\" />\n";
-				echo "<input type=\"submit\" name=\"insertandrepeat\" value=\"{$lang['strinsertandrepeat']}\" />\n";
+				echo "<input type=\"submit\" name=\"insertandrepeat\" accesskey=\"r\" value=\"{$lang['strinsertandrepeat']}\" />\n";
 				echo "<input type=\"submit\" name=\"cancel\" value=\"{$lang['strcancel']}\" />\n";
 				
 				if($fksprops !== false) {
@@ -689,7 +690,7 @@
 		else {
 			//If multi drop
 			if (is_array($_REQUEST['table'])) {
-				$msg='';
+				$msg = '';
 				$status = $data->beginTransaction();
 				if ($status == 0) {
 					foreach($_REQUEST['table'] as $t) {
@@ -738,7 +739,7 @@
 			'table' => array(
 				'title' => $lang['strtable'],
 				'field' => field('relname'),
-				'url'		=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
+				'url'	=> "redirect.php?subject=table&amp;{$misc->href}&amp;",
 				'vars'  => array('table' => 'relname'),
 			),
 			'owner' => array(
@@ -770,66 +771,160 @@
 				'default' => 'analyze',
 			),
 			'browse' => array(
-				'title' => $lang['strbrowse'],
-				'url'   => "display.php?{$misc->href}&amp;subject=table&amp;return=schema&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strbrowse'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'display.php',
+						'urlvars' => array (
+							'subject' => 'table',
+							'return' => 'table',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'select' => array(
-				'title' => $lang['strselect'],
-				'url'   => "tables.php?action=confselectrows&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strselect'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confselectrows',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'insert' => array(
-				'title' => $lang['strinsert'],
-				'url'   => "tables.php?action=confinsertrow&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
+				'content' => $lang['strinsert'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confinsertrow',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'empty' => array(
-				'title' => $lang['strempty'],
-				'url'   => "tables.php?action=confirm_empty&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_empty',
+				'content' => $lang['strempty'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_empty',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'alter' => array(
-				'title' => $lang['stralter'],
-				'url'	=> "tblproperties.php?action=confirm_alter&amp;{$misc->href}&amp;",
-				'vars'	=> array('table' => 'relname'),
+				'content' => $lang['stralter'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tblproperties.php',
+						'urlvars' => array (
+							'action' => 'confirm_alter',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'drop' => array(
-				'title' => $lang['strdrop'],
-				'url'   => "tables.php?action=confirm_drop&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_drop',
+				'content' => $lang['strdrop'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_drop',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'vacuum' => array(
-				'title' => $lang['strvacuum'],
-				'url'   => "tables.php?action=confirm_vacuum&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_vacuum',
+				'content' => $lang['strvacuum'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_vacuum',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'analyze' => array(
-				'title' => $lang['stranalyze'],
-				'url'   => "tables.php?action=confirm_analyze&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_analyze',
+				'content' => $lang['stranalyze'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_analyze',
+							'table' => field('relname')
+						)
+					)
+				)
 			),
 			'reindex' => array(
-				'title' => $lang['strreindex'],
-				'url'   => "tables.php?action=confirm_reindex&amp;{$misc->href}&amp;",
-				'vars'  => array('table' => 'relname'),
 				'multiaction' => 'confirm_reindex',
-			),
+				'content' => $lang['strreindex'],
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'confirm_reindex',
+							'table' => field('relname')
+						)
+					)
+				)
+			)
 			//'cluster' TODO ?
 		);
 
 		if (!$data->hasTablespaces()) unset($columns['tablespace']);
 
-		$misc->printTable($tables, $columns, $actions, $lang['strnotables']);
+		$misc->printTable($tables, $columns, $actions, 'tables-tables', $lang['strnotables']);
 
-		echo "<ul class=\"navlink\">\n\t<li><a href=\"tables.php?action=create&amp;{$misc->href}\">{$lang['strcreatetable']}</a></li>\n";
-		if (($tables->recordCount() > 0) && $data->hasCreateTableLike())
-			echo "\t<li><a href=\"tables.php?action=createlike&amp;{$misc->href}\">{$lang['strcreatetablelike']}</a></li>\n";
-		echo "</ul>\n";
+		$navlinks = array (
+			'create' => array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'create',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatetable']
+			)
+		);
+
+		if (($tables->recordCount() > 0) && $data->hasCreateTableLike()) {
+			$navlinks['createlike'] = array (
+				'attr'=> array (
+					'href' => array (
+						'url' => 'tables.php',
+						'urlvars' => array (
+							'action' => 'createlike',
+							'server' => $_REQUEST['server'],
+							'database' => $_REQUEST['database'],
+							'schema' => $_REQUEST['schema']
+						)
+					)
+				),
+				'content' => $lang['strcreatetablelike']
+			);
+		}
+		$misc->printNavLinks($navlinks, 'tables-tables', get_defined_vars());
 	}
 	
 	require('./admin.php');
@@ -865,7 +960,7 @@
 						)
 		);
 
-		$misc->printTreeXML($tables, $attrs);
+		$misc->printTree($tables, $attrs, 'tables');
 		exit;
 	}
 
@@ -897,7 +992,7 @@
 			),
 		);
 
-		$misc->printTreeXML($items, $attrs);
+		$misc->printTree($items, $attrs, 'table');
 		exit;
 	}
 

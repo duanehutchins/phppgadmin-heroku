@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL Belgeleri (yerel)';
 	$lang['strreportbug'] = 'Hata Bildirin';
 	$lang['strviewfaq'] = 'Sıkça Sorulan Sorular';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin']  =  'Giriş';
@@ -133,6 +133,7 @@
 	$lang['strfile']  =  'Dosya';
 	$lang['strfileimported']  =  'Dosya import edildi.';
 	$lang['strtrycred']  =  'Giriş bilgilerini tüm sunucular için kullan';
+$lang['strexecute']  =  'Execute';
 
 	// Error handling
 	$lang['strnoframes']  =  'Bu uygulama en iyi olarak frame destekli bir tarayıcı ile kullanılabilir; ancak frameler ile kullanmak istemiyorsanız aşağıdaki linke tıklayabilirsiniz.';
@@ -148,7 +149,6 @@
 	$lang['strnodata'] = 'Satır bulunamadı.';
 	$lang['strnoobjects']  =  'Hiçbir nesne bulunamadı..';
 	$lang['strrownotunique']  =  'Bu satır için hiçbir tekil belirtici bulunamadı.';
-	$lang['strnoreportsdb']  =  'reports veritabanı yaratışmamış. Yönergeler için lütfen INSTALL dosyasını okuyunuz.';
 	$lang['strnouploads']  =  'Dosya yükleme özelliği etkin değil.';
 	$lang['strimporterror']  =  'Import hatası.';
 	$lang['strimporterror-fileformat']  =  'Import hatası: Dosya tipi otomatik olarak belirlenemedi.';
@@ -378,6 +378,7 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strconfcluster']  =  '"%s" tablosunu cluster etmek istiyor musunuz?';
 	$lang['strclusteredgood']  =  'Cluster tamamlandı.';
 	$lang['strclusteredbad']  =  'Cluster başarısız oldu.';
+	$lang['strcluster']  =  'Küme';
 
 	// Rules
 	$lang['strrules'] = 'Rules';
@@ -522,18 +523,6 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strsearchpath'] = 'Şema arama yolu';
 
 	// Reports
-	$lang['strreport'] = 'Rapor';
-	$lang['strreports'] = 'Raporlar';
-	$lang['strshowallreports'] = 'Tüm raporları göster';
-	$lang['strnoreports'] = 'Hiçbir rapor bulunamadı';
-	$lang['strcreatereport'] = 'Rapor yaratıldı.';
-	$lang['strreportdropped'] = 'Rapor silindi';
-	$lang['strreportdroppedbad'] = 'Rapor silme işi başarısız oldu.';
-	$lang['strconfdropreport'] = '"%s" raporunu silmek istediğinize emin misiniz?';
-	$lang['strreportneedsname'] = 'Raporunuza bir ad vermelisiniz.';
-	$lang['strreportneedsdef'] = 'Raporunuz için SQL sorguları yazmalısınız.';
-	$lang['strreportcreated'] = 'Rapor kaydedildi.';
-	$lang['strreportcreatedbad'] = 'Rapor kaydetme başarısız oldu.';
 	$lang['strdomain'] = 'Domain';
 	$lang['strdomains'] = 'Domainler';
 	$lang['strshowalldomains'] = 'Tüm domainleri göster.';
@@ -639,115 +628,6 @@ $lang['strcannotdumponwindows']  =  'Dumping of complex table and schema names o
 	$lang['strtablespacealtered'] = 'Tablespace değiştirildi.';
 	$lang['strtablespacealteredbad'] = 'Tablespace değiştirilemedi.';
 
-	// Slony clusters
-	$lang['strcluster']  =  'Küme';
-	$lang['strnoclusters']  =  'Hiç küme bulunamadı.';
-	$lang['strconfdropcluster']  =  '"%s" kümesini kaldırmak istediğinize emin misiniz?';
-	$lang['strclusterdropped']  =  'Küme kaldırıldı.';
-	$lang['strclusterdroppedbad']  =  'Küme kaldırma işlemi başarısız oldu.';
-	$lang['strinitcluster']  =  'Kümeyi ilklendir';
-	$lang['strclustercreated']  =  'Küme ilklendirildi.';
-	$lang['strclustercreatedbad']  =  'Küme ilklendirme başarısız oldu.';
-	$lang['strclusterneedsname']  =  'Küme için bir ad vermelisiniz.';
-	$lang['strclusterneedsnodeid']  =  'Yerel uç için bir ID vermelisiniz.';
-	
-	// Slony nodes
-	$lang['strnodes']  =  'Uçlar';
-	$lang['strnonodes']  =  'Hiç uç bulunamadı.';
-	$lang['strcreatenode']  =  'Uç yarat';
-	$lang['strid']  =  'ID';
-	$lang['stractive']  =  'Etkin';
-	$lang['strnodecreated']  =  'Uç yaratıldı.';
-	$lang['strnodecreatedbad']  =  'Uç yaratma başarısız oldu.';
-	$lang['strconfdropnode']  =  '"%s" adlı ucu kaldırmak istediğinize emin misiniz?';
-	$lang['strnodedropped']  =  'Uç kaldırıldı.';
-	$lang['strnodedroppedbad']  =  'Uç kaldırma başarısız oldu.';
-	$lang['strfailover']  =  'Failover';
-$lang['strnodefailedover']  =  'Node failed over.';
-$lang['strnodefailedoverbad']  =  'Node failover failed.';
-	
-	// Slony paths	
-$lang['strpaths']  =  'Paths';
-$lang['strnopaths']  =  'No paths found.';
-$lang['strcreatepath']  =  'Create path';
-	$lang['strnodename']  =  'Uç adı';
-$lang['strnodeid']  =  'Node ID';
-$lang['strconninfo']  =  'Connection string';
-	$lang['strconnretry']  =  'yeniden bağlanmadan önce kaç saniye gerekecek';
-$lang['strpathneedsconninfo']  =  'You must give a connection string for the path.';
-$lang['strpathneedsconnretry']  =  'You must give the number of seconds to wait before retry to connect.';
-$lang['strpathcreated']  =  'Path created.';
-$lang['strpathcreatedbad']  =  'Path creation failed.';
-$lang['strconfdroppath']  =  'Are you sure you want to drop path "%s"?';
-$lang['strpathdropped']  =  'Path dropped.';
-$lang['strpathdroppedbad']  =  'Path drop failed.';
-
-	// Slony listens
-$lang['strlistens']  =  'Listens';
-$lang['strnolistens']  =  'No listens found.';
-$lang['strcreatelisten']  =  'Create listen';
-$lang['strlistencreated']  =  'Listen created.';
-$lang['strlistencreatedbad']  =  'Listen creation failed.';
-$lang['strconfdroplisten']  =  'Are you sure you want to drop listen "%s"?';
-$lang['strlistendropped']  =  'Listen dropped.';
-$lang['strlistendroppedbad']  =  'Listen drop failed.';
-
-	// Slony replication sets
-	$lang['strrepsets']  =  'Replikasyon kümesi';
-	$lang['strnorepsets']  =  'Hiç replikasyon kümesi bulunamadı.';
-	$lang['strcreaterepset']  =  'Replikasyon kümesi yarat';
-	$lang['strrepsetcreated']  =  'Replikasyon kümesi yaratıldı.';
-	$lang['strrepsetcreatedbad']  =  'Replikasyon kümesi yaratma başarısız oldu.';
-$lang['strconfdroprepset']  =  'Are you sure you want to drop replication set "%s"?';
-	$lang['strrepsetdropped']  =  'Replikasyon kümesi kaldırıldı.';
-	$lang['strrepsetdroppedbad']  =  'Replikasyon kümesi kaldırma başarısız oldu.';
-$lang['strmerge']  =  'Merge';
-$lang['strmergeinto']  =  'Merge into';
-$lang['strrepsetmerged']  =  'Replication sets merged.';
-$lang['strrepsetmergedbad']  =  'Replication sets merge failed.';
-	$lang['strmove']  =  'Taşı';
-$lang['strneworigin']  =  'New origin';
-	$lang['strrepsetmoved']  =  'Replikasyon kümesi taşındı.';
-	$lang['strrepsetmovedbad']  =  'Replikasyon kümesi taşıma başarısız oldu.';
-	$lang['strnewrepset']  =  'Yeni replikasyon kümesi';
-	$lang['strlock']  =  'Kilitle';
-	$lang['strlocked']  =  'Kilitlendi';
-	$lang['strunlock']  =  'Kilidi aç';
-	$lang['strconflockrepset']  =  '"%s" replikasyon kümesini kilitlemek istediğinize emin misiniz?';
-	$lang['strrepsetlocked']  =  'Replikasyon kümesi kilitlendi.';
-	$lang['strrepsetlockedbad']  =  'Replikasyon kümesi kilitleme başarısız oldu.';
-$lang['strconfunlockrepset']  =  'Are you sure you want to unlock replication set "%s"?';
-	$lang['strrepsetunlocked']  =  'Replikasyon kümesinin kilidi açıldı.';
-$lang['strrepsetunlockedbad']  =  'Replikasyon kümesi kilit açma başarısız oldu.';
-$lang['strexecute']  =  'Execute';
-$lang['stronlyonnode']  =  'Only on node';
-	$lang['strddlscript']  =  'DDL betiği';
-$lang['strscriptneedsbody']  =  'You must supply a script to be executed on all nodes.';
-$lang['strscriptexecuted']  =  'Replication set DDL script executed.';
-$lang['strscriptexecutedbad']  =  'Failed executing replication set DDL script.';
-$lang['strtabletriggerstoretain']  =  'The following triggers will NOT be disabled by Slony:';
-
-	// Slony tables in replication sets
-	$lang['straddtable']  =  'Tablo ekle';
-$lang['strtableneedsuniquekey']  =  'Table to be added requires a primary or unique key.';
-$lang['strtableaddedtorepset']  =  'Table added to replication set.';
-$lang['strtableaddedtorepsetbad']  =  'Failed adding table to replication set.';
-$lang['strconfremovetablefromrepset']  =  'Are you sure you want to remove the table "%s" from replication set "%s"?';
-$lang['strtableremovedfromrepset']  =  'Table removed from replication set.';
-$lang['strtableremovedfromrepsetbad']  =  'Failed to remove table from replication set.';
-
-	// Slony sequences in replication sets
-$lang['straddsequence']  =  'Add sequence';
-$lang['strsequenceaddedtorepset']  =  'Sequence added to replication set.';
-$lang['strsequenceaddedtorepsetbad']  =  'Failed adding sequence to replication set.';
-$lang['strconfremovesequencefromrepset']  =  'Are you sure you want to remove the sequence "%s" from replication set "%s"?';
-$lang['strsequenceremovedfromrepset']  =  'Sequence removed from replication set.';
-$lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from replication set.';
-
-	// Slony subscriptions
-	$lang['strsubscriptions']  =  'Üyelikler';
-	$lang['strnosubscriptions']  =  'Üyelik bulunamadı.';
-
 	// Miscellaneous
 	$lang['strtopbar']  =  '%s, %s:%s üzerinde çalışıyor-- "%s" kullanıcısı ile sisteme giriş yaptınız.';
         $lang['strtimefmt']  =  'jS M, Y g:iA';
@@ -758,6 +638,4 @@ $lang['strsequenceremovedfromrepsetbad']  =  'Failed to remove sequence from rep
 	$lang['strloading']  =  'Yükleniyor...';
 	$lang['strerrorloading']  =  'Yükleme hatası';
 	$lang['strclicktoreload']  =  'Yeniden yüklemek için tıklayın.';
-
 ?>
-

@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'PostgreSQL Dokumentasie (lokaal)';
 	$lang['strreportbug'] = 'Meld \'n fout aan';
 	$lang['strviewfaq'] = 'Bekyk FAQ op internet';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 	
 	// Basic strings
 	$lang['strlogin'] = 'Aanteken';
@@ -136,7 +136,6 @@
 	$lang['strnodata'] = 'Geen rye gevind.';
 	$lang['strnoobjects'] = 'Geen objekte gevind.';
 	$lang['strrownotunique'] = 'Geen unieke identifiseerder vir hierdie ry.';
-	$lang['strnoreportsdb'] = 'Jy het nie die verslae-databasis geskep nie. Lees asb. die INSTALL-lêer vir instruksies.';
 	$lang['strnouploads'] = 'Oplaaiing van lêers is afgeskakel.';
 	$lang['strimporterror'] = 'Inleesfout.';
 	$lang['strimporterrorline'] = 'Inleesfout op reël %s.';
@@ -500,18 +499,6 @@
 	$lang['strsearchpath'] = 'Skema-soekpad';
 
 	// Reports
-	$lang['strreport'] =  'Verslag';
-	$lang['strreports'] =  'Verslae';
-	$lang['strshowallreports'] =  'Wys alle verslae';
-	$lang['strnoreports'] =  'Geen verslae gevind.';
-	$lang['strcreatereport'] =  'Skep verslag';
-	$lang['strreportdropped'] =  'Verslag is verwyder.';
-	$lang['strreportdroppedbad'] =  'Verwydering van verslag het misluk.';
-	$lang['strconfdropreport'] =  'Is jy seker dat jy die verslag "%s" wil verwyder?';
-	$lang['strreportneedsname'] =  'Jy moet \'n naam gee vir die verslag.';
-	$lang['strreportneedsdef'] =  'Jy moet SQL-kode skryf vir die verslag.';
-	$lang['strreportcreated'] =  'Verslag is geskep.';
-	$lang['strreportcreatedbad'] =  'Die verslag kon nie geskep word nie.';
 
 	// Domains
 	$lang['strdomain'] =  'Domein';

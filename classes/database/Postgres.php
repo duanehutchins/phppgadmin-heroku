@@ -11,7 +11,7 @@ include_once('./classes/database/ADODB_base.php');
 
 class Postgres extends ADODB_base {
 
-	var $major_version = 9.2;
+	var $major_version = 9.4;
 	// Max object name length
 	var $_maxNameLen = 63;
 	// Store the current schema
@@ -230,7 +230,7 @@ class Postgres extends ADODB_base {
 	 * @return Data formatted for on-screen display
 	 */
 	function escapeBytea($data) {
-		return stripslashes(pg_escape_bytea($data));
+		return htmlentities($data, ENT_QUOTES, 'UTF-8');
 	}
 
 	/**
@@ -270,9 +270,13 @@ class Postgres extends ADODB_base {
 				break;
 			case 'bytea':
 			case 'bytea[]':
-				$value = $this->escapeBytea($value);
+                if (!is_null($value)) {
+				    $value = $this->escapeBytea($value);
+                }
 			case 'text':
 			case 'text[]':
+			case 'json':
+			case 'jsonb': 
 			case 'xml':
 			case 'xml[]':
 				$n = substr_count($value, "\n");
@@ -415,7 +419,7 @@ class Postgres extends ADODB_base {
 	}
 
 	function getHelpPages() {
-		include_once('./help/PostgresDoc92.php');
+		include_once('./help/PostgresDoc94.php');
 		return $this->help_page;
 	}
 
@@ -464,7 +468,7 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT pdb.datname AS datname, pr.rolname AS datowner, pg_encoding_to_char(encoding) AS datencoding,
-				(SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid) AS datcomment,
+				(SELECT description FROM pg_catalog.pg_shdescription pd WHERE pdb.oid=pd.objoid AND pd.classoid='pg_database'::regclass) AS datcomment,
 				(SELECT spcname FROM pg_catalog.pg_tablespace pt WHERE pt.oid=pdb.dattablespace) AS tablespace,
 				CASE WHEN pg_catalog.has_database_privilege(current_user, pdb.oid, 'CONNECT') 
 					THEN pg_catalog.pg_database_size(pdb.oid) 
@@ -487,7 +491,7 @@ class Postgres extends ADODB_base {
 	 */
 	function getDatabaseComment($database) {
 		$this->clean($database);
-		$sql = "SELECT description FROM pg_catalog.pg_database JOIN pg_catalog.pg_shdescription ON (oid=objoid) WHERE pg_database.datname = '{$database}' ";
+		$sql = "SELECT description FROM pg_catalog.pg_database JOIN pg_catalog.pg_shdescription ON (oid=objoid AND classoid='pg_database'::regclass) WHERE pg_database.datname = '{$database}' ";
 		return $this->selectSet($sql);
 	}
 
@@ -834,15 +838,10 @@ class Postgres extends ADODB_base {
 	 * @return All schemas, sorted alphabetically
 	 */
 	function getSchemas() {
-		global $conf, $slony;
+		global $conf;
 
 		if (!$conf['show_system']) {
 			$where = "WHERE nspname NOT LIKE 'pg@_%' ESCAPE '@' AND nspname != 'information_schema'";
-			if (isset($slony) && $slony->isEnabled()) {
-				$temp = $slony->slony_schema;
-				$this->clean($temp);
-				$where .= " AND nspname != '{$temp}'";
-			}
 
 		}
 		else $where = "WHERE nspname !~ '^pg_t(emp_[0-9]+|oast)$'";
@@ -2411,7 +2410,7 @@ class Postgres extends ADODB_base {
 				'relname' => $_autovacs->fields['relname']
 			);
 
-			foreach (explode(',', $_autovacs->fields['reloptions']) AS $var) {
+			foreach (explode(',', $_autovacs->fields['reloptions']) as $var) {
 				list($o, $v) = explode('=', $var);
 				$_[$o] = $v; 
 			}
@@ -4115,14 +4114,19 @@ class Postgres extends ADODB_base {
 
 		$sql = "
 			SELECT
-				pc.oid AS prooid, proname, pg_catalog.pg_get_userbyid(proowner) AS proowner,
+				pc.oid AS prooid, proname, 
+				pg_catalog.pg_get_userbyid(proowner) AS proowner,
 				nspname as proschema, lanname as prolanguage, procost, prorows,
 				pg_catalog.format_type(prorettype, NULL) as proresult, prosrc,
 				probin, proretset, proisstrict, provolatile, prosecdef,
 				pg_catalog.oidvectortypes(pc.proargtypes) AS proarguments,
 				proargnames AS proargnames,
 				pg_catalog.obj_description(pc.oid, 'pg_proc') AS procomment,
-				proconfig
+				proconfig,
+				(select array_agg( (select typname from pg_type pt
+					where pt.oid = p.oid) ) from unnest(proallargtypes) p)
+				AS proallarguments,
+				proargmodes
 			FROM
 				pg_catalog.pg_proc pc, pg_catalog.pg_language pl,
 				pg_catalog.pg_namespace pn
@@ -6941,8 +6945,8 @@ class Postgres extends ADODB_base {
 	function getTablespaces($all = false) {
 		global $conf;
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
-                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
+                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid AND pd.classoid='pg_tablespace'::regclass) AS spccomment
 					FROM pg_catalog.pg_tablespace";
 
 		if (!$conf['show_system'] && !$all) {
@@ -6961,8 +6965,8 @@ class Postgres extends ADODB_base {
 	function getTablespace($spcname) {
 		$this->clean($spcname);
 
-		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, spclocation,
-                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid) AS spccomment
+		$sql = "SELECT spcname, pg_catalog.pg_get_userbyid(spcowner) AS spcowner, pg_catalog.pg_tablespace_location(oid) as spclocation,
+                    (SELECT description FROM pg_catalog.pg_shdescription pd WHERE pg_tablespace.oid=pd.objoid AND pd.classoid='pg_tablespace'::regclass) AS spccomment
 					FROM pg_catalog.pg_tablespace WHERE spcname='{$spcname}'";
 
 		return $this->selectSet($sql);
@@ -7201,12 +7205,17 @@ class Postgres extends ADODB_base {
 	 */
 	function getProcesses($database = null) {
 		if ($database === null)
-			$sql = "SELECT * FROM pg_catalog.pg_stat_activity ORDER BY datname, usename, procpid";
+			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
+				FROM pg_catalog.pg_stat_activity
+				ORDER BY datname, usename, pid";
 		else {
 			$this->clean($database);
-		$sql = "
-				SELECT * FROM pg_catalog.pg_stat_activity
-				WHERE datname='{$database}' ORDER BY usename, procpid";
+			$sql = "SELECT datname, usename, pid, waiting, state_change as query_start,
+                  case when state='idle in transaction' then '<IDLE> in transaction' when state = 'idle' then '<IDLE>' else query end as query 
+				FROM pg_catalog.pg_stat_activity
+				WHERE datname='{$database}'
+				ORDER BY usename, pid";
 		}
 
 		return $this->selectSet($sql);
@@ -7980,6 +7989,7 @@ class Postgres extends ADODB_base {
 	function hasQueryCancel() { return true; }
 	function hasTablespaces() { return true; }
 	function hasUserRename() { return true; }
+    function hasUserSignals() { return true; }
 	function hasVirtualTransactionId() { return true; }
 	function hasAlterDatabase() { return $this->hasAlterDatabaseRename(); }
 	function hasDatabaseCollation() { return true; }
@@ -7987,6 +7997,7 @@ class Postgres extends ADODB_base {
 	function hasQueryKill() { return true; }
 	function hasConcurrentIndexBuild() { return true; }
 	function hasForceReindex() { return false; }
+	function hasByteaHexDefault() { return true; } 
 	
 }
 ?>

@@ -20,7 +20,7 @@
 	$lang['strlocaldocs'] = 'Documentazione su PostgreSQL (locale)';
 	$lang['strreportbug'] = 'Riferisci un bug';
 	$lang['strviewfaq'] = 'Visualizza le FAQ (domande ricorrenti) on line';
-	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/?page=faq';
+	$lang['strviewfaq_url'] = 'http://phppgadmin.sourceforge.net/doku.php?id=faq';
 
 	// Basic strings - Stringhe basilari
 	$lang['strlogin'] = 'Login';
@@ -159,7 +159,6 @@
 	$lang['strnodata'] = 'Nessuna riga trovata.';
 	$lang['strnoobjects'] = 'Nessun oggetto trovato.';
 	$lang['strrownotunique'] = 'Nessun identificatore univoco per questa riga.';
-	$lang['strnoreportsdb'] = 'Non è stato creato il database dei report. Leggere il file INSTALL per istruzioni.';
 	$lang['strnouploads'] = 'L\'upload dei file è disabilitato.';
 	$lang['strimporterror'] = 'Errore durante l\'import.';
 	$lang['strimporterror-fileformat'] = 'Errore durante l\'import: determinazione automatica del formato del file fallita.';
@@ -423,6 +422,7 @@
 	$lang['strconfcluster'] = 'Clusterizzare "%s"?';
 	$lang['strclusteredgood'] = 'Clusterizzazione completata.';
 	$lang['strclusteredbad'] = 'Clusterizzazione fallita.';
+	$lang['strcluster'] = 'Cluster';
 
 	// Rules - Regole
 	$lang['strrules'] = 'Regole';
@@ -566,18 +566,6 @@
 	$lang['strsearchpath'] = 'Ordine di ricerca dello schema';
 
 	// Reports - Rapporti
-	$lang['strreport'] = 'Rapporto';
-	$lang['strreports'] = 'Rapporti';
-	$lang['strshowallreports'] = 'Mostra tutti i rapporti';
-	$lang['strnoreports'] = 'Nessun rapporto trovato.';
-	$lang['strcreatereport'] = 'Crea rapporto';
-	$lang['strreportdropped'] = 'Rapporto eliminato.';
-	$lang['strreportdroppedbad'] = 'Eliminazione del rapporto fallita.';
-	$lang['strconfdropreport'] = 'Eliminare il rapporto "%s"?';
-	$lang['strreportneedsname'] = 'È necessario specificare un nome per il rapporto.';
-	$lang['strreportneedsdef'] = 'È necessario inserire il codice SQL per il rapporto.';
-	$lang['strreportcreated'] = 'Rapporto salvato';
-	$lang['strreportcreatedbad'] = 'Salvataggio del rapporto fallito.';
 
 	// Domains - Domini
 	$lang['strdomain'] = 'Dominio';
@@ -707,12 +695,6 @@
 	$lang['strtablespacedroppedbad'] = 'Eliminazione del tablespace fallita.';
 	$lang['strtablespacealtered'] = 'Tablespace modificato.';
 	$lang['strtablespacealteredbad'] = 'Modifica del tablespace fallita.';
-
-	// Slony clusters - Cluster Slony
-	$lang['strcluster'] = 'Cluster';
-
-	// Slony nodes - Nodi Slony
-	$lang['strid'] = 'ID';
 
 	// Miscellaneous - Varie
 	$lang['strtopbar'] = '%s in esecuzione su %s:%s -- Utente "%s"';

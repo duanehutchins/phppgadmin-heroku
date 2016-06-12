@@ -16,7 +16,7 @@
 	$appName = 'phpPgAdmin';
 
 	// Application version
-	$appVersion = '5.1-dev';
+	$appVersion = '5.2-dev';
 
 	// PostgreSQL and PHP minimum version
 	$postgresqlMinVer = '7.4';
@@ -95,7 +95,8 @@
 
 	/* select the theme */
 	unset($_theme);
-	$conf['theme'] = 'default';
+	if (!isset($conf['theme']))
+		$conf['theme'] = 'default';
 
 	// 1. Check for the theme from a request var
 	if (isset($_REQUEST['theme']) && is_file("./themes/{$_REQUEST['theme']}/global.css")) {
@@ -112,6 +113,35 @@
 	// 3. Check for theme in cookie var
 	if (!isset($_theme) && isset($_COOKIE['ppaTheme']) && is_file("./themes/{$_COOKIE['ppaTheme']}/global.css")) {
 		$conf['theme']  = $_COOKIE['ppaTheme'];
+	}
+
+	// 4. Check for theme by server/db/user
+	$info = $misc->getServerInfo();
+
+	if (!is_null($info)) {
+		$_theme = '';
+
+		if ( (isset($info['theme']['default']))
+			and is_file("./themes/{$info['theme']['default']}/global.css")
+		)
+			$_theme = $info['theme']['default'];
+
+		if ( isset($_REQUEST['database'])
+			and isset($info['theme']['db'][$_REQUEST['database']])
+			and is_file("./themes/{$info['theme']['db'][$_REQUEST['database']]}/global.css")
+		)
+			$_theme = $info['theme']['db'][$_REQUEST['database']];
+
+		if ( isset($info['username'])
+			and isset($info['theme']['user'][$info['username']])
+			and is_file("./themes/{$info['theme']['user'][$info['username']]}/global.css")
+		)
+			$_theme = $info['theme']['user'][$info['username']];
+
+		if ($_theme !== '') {
+			setcookie('ppaTheme', $_theme, time()+31536000);
+			$conf['theme'] = $_theme;
+		}
 	}
 
 	// Determine language file to import:
@@ -161,6 +191,11 @@
 		$_language = $conf['default_lang'];
 	}
 
+	// 6. Otherwise, default to english.
+	if (!isset($_language))
+		$_language = 'english';
+
+
 	// Import the language file
 	if (isset($_language)) {
 		include("./lang/{$_language}.php");
@@ -178,6 +213,9 @@
 		echo $lang['strnotloaded'];
 		exit;
 	}
+
+	// Manage the plugins
+	require_once('./classes/PluginManager.php');
 
 	// Create data accessor object, if necessary
 	if (!isset($_no_db_connection)) {
@@ -218,12 +256,6 @@
 				exit;
 			}
 		}
-
-		// Load Slony if required
-		if (isset($_server_info['slony_support']) && $_server_info['slony_support']) {
-			include('./classes/plugins/Slony.php');
-			$slony = new Slony();
-		}
 	}
 
 	if (!function_exists("htmlspecialchars_decode")) {
@@ -231,4 +263,6 @@
 			return strtr($string, array_flip(get_html_translation_table(HTML_SPECIALCHARS, $quote_style)));
 		}
 	}
+
+	$plugin_manager = new PluginManager($_language);
 ?>
